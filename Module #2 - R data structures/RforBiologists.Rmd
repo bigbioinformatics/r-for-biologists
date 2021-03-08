@@ -1,6 +1,11 @@
 ---
 title: "Data Structures in R"
-output: revealjs::revealjs_presentation
+output: 
+  html_document:
+    theme: flatly
+    toc: true
+    toc_float:
+      smooth_scroll: true   
 ---
 
 
