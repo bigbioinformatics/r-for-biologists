@@ -1,0 +1,606 @@
+---
+title: "Data Structures in R"
+output: revealjs::revealjs_presentation
+---
+
+
+
+```{r echo=FALSE}
+options(repos=structure(c(CRAN="https://cloud.r-project.org/")))
+
+```
+
+# Welcome to R for Biologists Workshop!
+
+```{r echo=FALSE}
+img1 <- magick::image_read("Bioinformatics_bootcamp.png")
+img1 <- magick::image_scale(img1,"2000x2000")
+plot(img1)
+```
+
+<div style="margin-bottom: 1000px;">
+</div>
+
+# Workflow
+
+```{r, echo=FALSE}
+#install.packages("magick")
+#library("magick")
+img <- magick::image_read("Workflow.png")
+plot(img)
+```
+
+<div style="margin-bottom: 1000px;">
+</div>
+
+# Real world example of basic skills
+
+ 
+
+```{r echo=FALSE}
+
+library(readr)
+seq1=read_file("SEQ1.txt")
+seq2=read_file("SEQ2.txt")
+
+
+```
+
+Lets say we have two sequences
+
+
+
+Sequence 1
+
+```{r}
+print(seq1)
+```
+
+
+& Sequence 2
+
+```{r}
+print(seq2)
+```
+
+
+
+And you want to know whether the first sequencing file is the same as the second. 
+
+<div style="margin-bottom:500px;">
+<details>
+<summary>Are the 2 sequences the same?</summary>
+
+
+```{r} 
+
+seq1==seq2
+
+```
+</div>
+</details>
+
+
+
+# Comments
+
+An important tool for writing R code is comments. These are preceded by # and are ignored by R 
+
+```{r echo=T}
+#This code will say "Hello World!"
+
+"Hello world!"
+```
+
+Comments are a helpful tool for conveying information about your code to others.
+
+<div style="margin-bottom:1000px;">
+</div>
+
+# 5 basic data structures in R
+
+* Character
+* Numeric
+* Integer
+* Logical
+* Complex
+
+## Character
+
+Holds "string" data. For example: 
+
+```{r}
+"Hello World"
+```
+
+You can ask R to tell you what type of data you have:
+
+```{r}
+class("Hello World")
+```
+
+<div style="margin-bottom:1000px;">
+</div>
+
+## Numbers
+
+Numbers can be integers or numerics (i.e., floats) in R. For example: 
+
+```{r}
+1
+
+2.2
+
+3E100
+
+```
+
+The default for R is to make every number a numeric
+
+```{r}
+class(1)
+```
+
+Which means that we have hidden decimal points behind the 1 (1.00 for example)
+
+<div style="margin-bottom:1000px;">
+</div>
+
+
+### Specifying an integer
+ 
+But what if we wanted specifically an integer?
+
+```{r}
+1L
+
+class(1L)
+```
+
+<div style="margin-bottom:1000px;">
+</div>
+
+### Challenge Question 1
+
+Is this a numeric or a character? 
+
+
+```{r}
+"2"
+```
+
+<details>
+<summary>What is the class("2")</summary>
+```{r}
+class("2")
+```
+
+</details>
+
+<div style="margin-bottom:1000px;">
+</div>
+
+
+
+## Logicals
+
+Logicals are either True of False. For example
+
+```{r}
+TRUE
+
+FALSE
+
+class(TRUE)
+
+class(FALSE)
+```
+
+...its time for another challenge question!
+<div style="margin-bottom:1000px;">
+</div>
+
+### Challenge question 2
+
+R is *case sensitive*. 
+
+With that knowledge, what do you think the below would give us? 
+
+<details>
+<summary>What is the class(true)</summary>
+```{r, error=TRUE}
+class(true)
+```
+</details>
+
+<div style="margin-bottom:1000px;">
+</div>
+
+
+## Data Structure Classes cont..
+
+So far we have only been using class()
+
+But we can also use a function to see the structure of any R object: 
+
+```{r}
+str(1)
+
+str("Hello World!")
+
+str(TRUE)
+```
+
+<div style="margin-bottom:1000px;">
+</div>
+
+### Challenge Question 3
+
+R is an object oriented language, and it tends to put everything in some sort of class. 
+What would the below tell us? 
+
+```{r results='hide'}
+str(class)
+```
+
+<details>
+<summary>What is the str(class)</summary>
+```{r echo = FALSE}
+str(class)
+```
+</details>
+<div style="margin-bottom:1000px;">
+</div>
+
+# Simple Data Structures Methods
+
+## Arithmetic Methods
+
+
+* Addition
+
+```{r}
+1+1
+
+```
+
+
+* Subraction
+
+```{r}
+1-1
+```
+
+
+* Multiplication
+
+```{r}
+2*2
+```
+
+
+* Division
+
+```{r}
+10/2
+```
+
+<div style="margin-bottom:1000px;">
+</div>
+
+
+## Equivalence Comparisons
+
+
+Equivalence comparisons are a way to check if any two objects are the same
+
+```{r}
+#Does 1 equal 1?
+
+1==1
+
+#Does "Hello" equal "World?"
+
+"Hello" == "World"
+
+```
+
+
+We can also invert an equivalancy comparison to check if two objects are *not* equal
+
+```{r}
+#Does 1 not equal 1?
+
+1!=1
+
+```
+
+<div style="margin-bottom: 1000px;">
+</div>
+
+## Mathematical Comparisons
+
+For numeric data types, mathematical comparisons can also be made
+
+```{r}
+#Is 1 less than 100?
+1<100
+
+#Is 2+2 greater than 2^2
+
+2+2>2^2
+
+```
+
+
+
+<div style="margin-bottom: 1000px;">
+</div>
+
+### Challenge Question 4
+
+Arithmetic in R follows PEMDAS
+
+```{r}
+4+5*3
+```
+
+vs 
+
+```{r}
+(4+5)*3
+```
+
+
+What would we get with the following? 
+
+```{r results='hide'}
+4+5*3>(4+5)*3
+```
+<details>
+<summary>What would you get with 4+5x3>(4+5)x3</summary>
+```{r echo=FALSE}
+4+5*3>(4+5)*3
+
+```
+
+<div style="margin-bottom: 1000px;">
+</div>
+
+
+# Variables
+
+Variables hold objects that are assigned to them. 
+
+```{r}
+a <- 1
+```
+
+They can be identical to the object assigned to them
+
+```{r}
+a <- 1
+b <- a
+
+#does b equal 1?
+
+b==1
+```
+
+Variables enable complex operations on data
+
+```{r}
+h <- 2^100
+i <- h/3E100
+j <- 1E5
+k <- j^(-1*i)
+
+#is k greater than 1?
+
+k < 1
+```
+
+<div style="margin-bottom: 1000px;">
+</div>
+
+# Complex Data Structures
+
+## Vectors
+
+A Vector is an ordered collection of either numerics, characters, or logicals
+
+```{r}
+c(1, 2, 3)
+c(TRUE, FALSE, TRUE)
+c("hello", "world")
+```
+
+<div style="margin-bottom: 1000px;">
+</div>
+
+### Challenge Question 5
+
+A vector in R has a limitation: they can only allow one type of class in each vector.
+
+If you add more than one type of class, it will default to a character. 
+
+With that said, what would the following give you? 
+
+```{r echo=FALSE}
+
+class(c("puppies", 2))
+
+```
+
+<details>
+<summary>What is the class of (c("puppies", 2))</summary>
+```{r}
+class(c("puppies", 2))
+```
+</details>
+<div style="margin-bottom: 1000px;">
+</div>
+
+### Challenge Question 6
+
+I can change the following vector in my variable to all numbers
+
+```{r}
+my_num <- as.numeric(c("2", 2))
+
+class(my_num)
+```
+
+But what would happen if I tried to do the following? 
+
+```{r warning=FALSE, results='hide'}
+as.numeric(c("salt", "2"))
+
+print(as.numeric(c("salt", "2")))
+
+```
+
+<details>
+<summary>What is the class of as.numeric(c("salt", "2"))</summary>
+
+```{r error=TRUE, echo=FALSE}
+
+print(as.numeric(c("salt", "2")))
+
+class(as.numeric(c("salt", "2")))
+```
+</details>
+
+<div style="margin-bottom: 1000px;">
+</div>
+
+# Vectors Continued
+
+Vectors can also have a vector of names which describe each element
+
+```{r}
+grades <- c(98, 95, 82)
+names(grades) <- c("Jimmy", "Alice", "Susan")
+
+grades
+
+```
+
+Elements from a vector can be accessed using the index of the desired data. Lets say I wanted to know what Alice's grade was.
+
+```{r}
+grades[2]
+```
+
+
+But lets say that I didn't know Alice was the second index
+
+```{r}
+grades["Alice"]
+```
+
+If you want to add a series of numbers to a vector of integers, you can do the following: 
+
+```{r}
+my_ints <- 1:10
+my_ints
+```
+
+<div style="margin-bottom: 1000px;">
+</div>
+
+# Lists
+
+A list is an ordered collection of any objects. This differs from vectors, because vectors can only be one type of object class
+
+```{r}
+my_list <- list(1, "b", TRUE, c(1,2,3))
+my_list
+```
+
+Lists can also have names
+
+```{r}
+names(my_list)=c("My #", "My Letter", "My logical", "My_num_Set")
+
+my_list
+```
+
+The elements within a list can be accessed by using numeric indexes or by the element name
+
+```{r}
+my_list[[2]]
+
+my_list[["My_num_Set"]]
+
+my_list$My_num_Set
+
+#If I did the following, I would get the whole vector within the list
+
+my_list[2]
+
+```
+
+<div style="margin-bottom: 1000px;">
+</div>
+
+#Data Frames
+
+Data frames are similar to excel sheets. They are 2D arrays which can hold numeric, character, and boolean data. They also have column names. 
+
+```{r}
+my_df <- data.frame("students"=c("Jimmy", "Alice", "Susan"), 
+                    "Grades"=c(98, 95, 82))
+
+
+my_df
+```
+
+Data frames can be accessed numerically by expressing the row and column of interest. 
+
+```{r}
+#What grade did Susan get? 
+
+my_df[3,2] #row, column
+
+```
+
+They can also be accessed with the $ sign
+
+```{r}
+my_df$Grades
+
+#What grade did Alice get?
+
+my_df$Grades[2]
+
+```
+
+
+<div style="margin-bottom: 1000px;">
+</div>
+
+
+# End of the workshop
+
+Thank you!
+
+Questions?
+
+<div style="margin-bottom: 500px;">
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
